@@ -2,7 +2,8 @@
 import { RouterView } from "vue-router";
 import axios from "axios";
 
-axios.defaults.baseURL = "http://localhost:3005";
+const apiUrl = process.env.VUE_APP_API_URL;
+/* axios.defaults.baseURL = "http://localhost:3005"; */
 import HeaderApp from "./components/HeaderApp.vue";
 import CardApp from "./components/CardApp.vue";
 import DrawerApp from "./components/DrawerApp.vue";
