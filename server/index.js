@@ -19,10 +19,15 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../front/dist/index.html'));
   });
 // Настройка CORS
-
+// Настройка CORS
 app.use(cors({
-  }));
-  app.options('*', cors());
+  origin: 'http://94.241.141.209:3005', // Разрешенный источник
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Разрешенные методы
+  allowedHeaders: ['Content-Type', 'Authorization'], // Разрешенные заголовки
+}));
+
+// Обработка предварительных запросов OPTIONS
+app.options('*', cors());
 // Настройка POST-запроса — JSON
 app.use(express.json());
 
