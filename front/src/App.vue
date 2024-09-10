@@ -3,7 +3,8 @@ import { RouterView } from "vue-router";
 import axios from "axios";
 
 const apiUrl = process.env.VUE_APP_API_URL;
-/* axios.defaults.baseURL = "http://localhost:3005"; */
+axios.defaults.baseURL = apiUrl;
+
 import HeaderApp from "./components/HeaderApp.vue";
 import CardApp from "./components/CardApp.vue";
 import DrawerApp from "./components/DrawerApp.vue";
@@ -27,20 +28,12 @@ export default {
     };
   },
   methods: {
-    
-
     goHome() {
-       this.$router.push('/');
-     },
-     goFavorite() {
-       this.$router.push('/favorite');
-     },
-
-
-
-
-
-
+      this.$router.push('/');
+    },
+    goFavorite() {
+      this.$router.push('/favorite');
+    },
     async loadSmartfones() {
       let response = await axios.get(`/all`, {
         params: {
@@ -56,7 +49,6 @@ export default {
       this.syncSmartfonesWithAdded();
       this.syncSmartfonesWithFavorites();
     },
-    
     fetchFavorites(id) {
       for (let i = 0; i < this.smartfones.length; i++) {
         if (this.smartfones[i]._id === id) {
@@ -135,44 +127,20 @@ export default {
     closeDrawerFunc() {
       this.openDrawer = !this.openDrawer;
     },
-
     clearAdded() {
       for (let i = 0; i < this.added.length; i++){
-        this.added[i].isAdded=false;
+        this.added[i].isAdded = false;
       }
-      this.totalSum=0
+      this.totalSum = 0;
       this.added = [];
       this.saveAddedToLocalStorage();
     },
   },
-
-
- 
-
-
-
-
-
   mounted() {
     this.loadSmartfones();
     this.loadAddedFromLocalStorage();
     this.loadFavoritesFromLocalStorage();
   },
-
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
   computed: {
     isBasketPage() {
       return this.$route.path === '/basket';
@@ -181,56 +149,5 @@ export default {
       return this.$route.path === '/favorite';
     },
   },
-  
 };
 </script>
-
-
-
-
-
-<template>
-  <DrawerApp v-if="this.openDrawer" :closeDrawerFunc="closeDrawerFunc" :added="added" :fetchAdded="fetchAdded" :totalSum="totalSum"   />
-  <div class="w-4/5 m-auto bg-white rounded-xl shadow-xl mt-10 ">
-    <HeaderApp :favorites="favorites" :added="added" :openDrawerFunc="openDrawerFunc" :totalSum="totalSum" :goFavorite="goFavorite" />
-   <div class="p-10" >
-     
-    <div class="flex flex-col  items-center" v-if="!isBasketPage && !isFavoritePage"  >
-      <div><h2 class="text-3xl font-bold  ">Все услуги</h2></div> 
-      <div class="flex justify-center gap-4 flex-wrap py-4">
-        <div class="items-center ">
-      <select class=" py-2 px-3 border rounded-md outline-none" v-model="category">
-        <option class="sm:text-xs" value="">Выбирете из списка</option>
-        <option class="sm:text-xs" value="Samsung">Samsung</option>
-        <option class="sm:text-xs" value="Iphone">Iphone</option>
-        <option class="sm:text-xs" value="Xiaomi">Xiaomi</option>
-        <option class="sm:text-xs" value="Honor">Honor</option>
-        <option class="sm:text-xs" value="Tecno">Tecno</option>
-        <option class="sm:text-xs" value="Huawei">Huawei</option>
-        <option class="sm:text-xs" value="Realme">Realme</option>
-      </select>
-    </div>
-    <div class="relative">
-          <img class="absolute left-5 top-3 " src="/search.svg" alt="search">
-          <input class=" border rounded-md py-2 pl-10 pr-4 outline-none focus:border-gray-400 pl-12 " type="text" placeholder="Введите модель..."  v-model="model">
-      </div>
-      <div><button  @click="loadSmartfones" class="bg-lime-600 border px-8 py-2 rounded-md hover:bg-lime-700 transition text-white">Найти</button>
-      </div>
-      </div>
-   
-     
-    </div>
-    
-    
-    <router-view :clearAdded="clearAdded" :goFavorite="goFavorite" :goHome="goHome" :smartfones="smartfones" :fetchFavorites="fetchFavorites" :fetchAdded="fetchAdded"  :closeDrawerFunc="closeDrawerFunc" :added="added"  :totalSum="totalSum" :openDrawer="openDrawer" :favorites="favorites" />
-    
-  </div>
-  
-    
-  </div>
-
-</template>
-
-<style scoped>
-
-</style>
