@@ -2,6 +2,7 @@ require('dotenv').config();
 
 let express = require(`express`);
 let app = express();
+const path = require('path');
 let cors = require('cors');
 const PORT = process.env.PORT || 3005;
 
@@ -12,12 +13,14 @@ app.use(express.static('public'));
 app.listen(PORT, function () {
     console.log(`http://localhost:${PORT}`);
 });
-
+app.use(express.static(path.join(__dirname, '../front/dist')));
+// Все остальные запросы отправляем на фронтенд
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../front/dist/index.html'));
+  });
 // Настройка CORS
 
 app.use(cors({
-    
-    origin:' http://localhost:5173',
   }));
   app.options('*', cors());
 // Настройка POST-запроса — JSON
