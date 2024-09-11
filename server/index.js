@@ -20,11 +20,7 @@ app.get('*', (req, res) => {
   });
 // Настройка CORS
 // Настройка CORS
-app.use(cors({
-  origin: 'http://94.241.141.209:3005', // Разрешенный источник
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Разрешенные методы
-  allowedHeaders: ['Content-Type', 'Authorization'], // Разрешенные заголовки
-}));
+app.use(cors());
 
 // Обработка предварительных запросов OPTIONS
 app.options('*', cors());
