@@ -2,7 +2,7 @@
 import { RouterView } from "vue-router";
 import axios from "axios";
 
-const apiUrl ='http://94.241.141.209:3005';
+const apiUrl =process.env.VUE_APP_API_URL  || 'http://94.241.141.209:3005';
 axios.defaults.baseURL = apiUrl;
 
 import HeaderApp from "./components/HeaderApp.vue";
