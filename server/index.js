@@ -10,8 +10,8 @@ const PORT = process.env.PORT || 3005;
 // Настройка POST-запроса — JSON
 app.use(express.json());
 app.use(express.static('public'));
-app.listen(PORT, function () {
-    console.log(`http://94.241.141.209:${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`http://localhost:${PORT}`);
 });
 app.use(express.static(path.join(__dirname, '../front/dist')));
 // Все остальные запросы отправляем на фронтенд
